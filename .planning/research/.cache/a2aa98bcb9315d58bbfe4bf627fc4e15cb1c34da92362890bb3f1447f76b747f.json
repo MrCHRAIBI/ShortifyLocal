@@ -1,0 +1,1 @@
+{"content":"AGP latest stable 9.4.0 (Google Maven group-index; 9.5.0 only alphas). Requires Gradle >= 9.6.0, JDK 17+, build-tools 36, default NDK 28.2, max API 37. Source: dl.google.com group-index + developer.android.com","source":"web","provider":"webfetch","confidence":"HIGH","fetched_at":"2026-09-04T22:29:12.814Z","ttl":86400000,"kind":"docs"}
