@@ -48,7 +48,7 @@ Transformer un lien YouTube en Shorts verticaux sous-titrés, recadrés et prêt
 - **Historique** : projet initialement conçu en Flutter (Android+iOS), réécrit en spécification Kotlin natif Android-only. Room remplace Isar (inexistant en natif) avec mapping conceptuel documenté en Partie 4.
 - **Chaîne de traitement clé** : machine à états `DownloadingAudio → Transcribing → Segmenting → Reframing → Subtitling → Rendering → Done | Error`, orchestrée par `PipelineWorker` (WorkManager + Hilt, foreground `dataProcessing`), progression via `WorkInfo.progress` + bus StateFlow.
 - **Dépendances natives** : whisper.cpp compilé CMake/NDK avec bindings JNI (`token_timestamps=true`) ; ffmpeg-kit-full-gpl 6.0-2 (libass + libx264 + loudnorm) ; ML Kit Face Detection modèle bundled. **Alignement 16 KB page size obligatoire** (Android 16).
-- **Licences** : MIT / Apache 2.0 / BSD / LGPL acceptées (LGPL explicite pour NewPipeExtractor et ffmpeg-kit).
+- **Licences** : MIT / Apache 2.0 / BSD / LGPL + GPL-3.0 accepté uniquement pour NewPipeExtractor et ffmpeg-kit-full-gpl (décision propriétaire du 2026-09-05)
 - **État du répertoire** : aucun code applicatif ; le workspace ne contient que l'outillage GSD et les documents de spécification.
 
 ## Constraints
@@ -74,6 +74,10 @@ Transformer un lien YouTube en Shorts verticaux sous-titrés, recadrés et prêt
 | Économie de tokens locale signée HMAC-SHA256 | Aucun serveur : anti-triche contre manipulation naïve, limites assumées (Partie 5 §7) | — Pending |
 | Cible de distribution : Play Store ; IDs AdMob de test en dev, UMP en production | Le cahier des charges impose les IDs de test en développement et le consentement UMP en prod | — Pending |
 | Documents de planification GSD en français | Cohérence avec le cahier des charges rédigé en français | — Pending |
+| Acceptation GPL-3.0 pour NewPipeExtractor (v0.26.5) et ffmpeg-kit-full-gpl — amendement de la liste blanche des licences | Aucune alternative fonctionnelle crédible hors GPL couvrant le pipeline A→F (extraction YouTube + x264 + libass) ; licences vérifiées directement sur les dépôts officiels le 2026-09-04 (NewPipeExtractor = GPL-3.0, et non LGPL) | — Committed |
+| Substitution obligatoire de `com.arthenica:ffmpeg-kit-full-gpl:6.0-2` (retiré de Maven Central le 2025-04-01, HTTP 404) par le fork ffmpegkit-maintained (maitrungduc1410) : `dev.ffmpegkit-maintained:ffmpeg-kit-full-gpl:8.1.7` | API drop-in identique `com.arthenica.ffmpegkit` ; libass + x264 + loudnorm inclus ; alignement 16 KB imposé par la CI du fork ; publication arm64-v8a à confirmer en Phase 1 ; coordonnée exacte + checksum à épingler dans `libs.versions.toml` en Phase 1 | — Committed |
+| Distribution hybride : Google Play avec listing repositionné « studio de montage IA » (aucune mention de téléchargement YouTube) + canal parallèle APK signé en distribution directe (GitHub Releases / site, checksums SHA-256) + upload de vidéo locale en v1.x comme dé-risquage (V2PROD-01) | L'application est légale (copie privée / fair use) ; le risque est uniquement distributionnel (policy Play « Device and Network Abuse » + ToS YouTube) ; plan B indispensable dès le jour 1 | — Committed |
+| Épinglage des versions mis à jour (clause de fraîcheur) : Kotlin 2.4.10, AGP 9.4.0, Gradle 9.7.1, JDK 17, Compose BOM 2026.08.00, Hilt 2.60.1, Room 2.8.4 + KSP2 2.3.11, Navigation 2.10.0, WorkManager 2.11.2, security-crypto 1.1.0 stable, play-services-ads 25.4.0, UMP 4.0.0, ML Kit face-detection 16.1.7, Media3 1.11.0, OkHttp 5.5.0, Coil 3.6.2, DataStore 1.2.1, NewPipeExtractor v0.26.5, fork ffmpeg-kit 8.1.7, whisper.cpp b4938 | Registres officiels (Google Maven, Maven Central, services.gradle.org, kotlinlang.org, GitHub) vérifiés le 2026-09-04 ; épinglages d'origine du cahier des charges dépassés | — Committed |
 
 ## Evolution
 

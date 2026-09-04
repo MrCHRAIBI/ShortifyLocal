@@ -55,6 +55,7 @@ Recent decisions affecting current work:
 - Roadmap: ordre natif-d'abord — le spike whisper.cpp/ffmpeg-kit (Phase 2) est le chemin critique absolu, l'UI n'est branchée sur le réel qu'après un premier Short rendu (Phase 5).
 - Roadmap: économie de tokens dans le chemin critique — débit d'analyse (−5) soudé au lancement du worker (Phase 4), déverrouillage (−3) câblé dans le rendu/export (Phase 5), pub/UMP en Phase 7.
 - Roadmap: substitution ffmpeg-kit verrouillée en Phase 1 (artefact arthenica mort) ; i18n structurellement RTL-ready dès la Phase 6, complétée en Phase 7.
+- 2026-09-05 : 4 décisions propriétaire consignées dans PROJECT.md (GPL-3.0, fork ffmpeg-kit 8.1.7, distribution hybride, épinglage versions 2026-09).
 
 ### Pending Todos
 
@@ -62,9 +63,14 @@ None yet.
 
 ### Blockers/Concerns
 
-- Phase 1 : décisions à acter avant tout code — GPL-3.0 (NewPipeExtractor + ffmpeg-kit-full-gpl), positionnement Play + plan B APK signé.
-- Phase 2 : disponibilité x86_64 du fork ffmpegkit-maintained à confirmer (sinon prévoir un appareil ARM64 physique) ; coordonnée Maven exacte + checksum du fork à épingler dans `libs.versions.toml`.
-- Phase 5 : benchmark whisper on-device (Phase 2) doit être disponible avant de figer l'UX de progression.
+Résolus (2026-09-05) :
+- ✓ Décision GPL-3.0 acceptée (NewPipeExtractor + ffmpeg-kit-full-gpl).
+- ✓ Substitution fork ffmpegkit-maintained validée.
+- ✓ Stratégie de distribution validée : Play repositionné « studio de montage IA » + plan B APK signé.
+
+Ouverts :
+- Phase 1 : disponibilité x86_64 du fork à confirmer (sinon appareil/émulateur ARM64).
+- Phase 1 : coordonnée Maven exacte + checksum du fork à épingler dans `libs.versions.toml`.
 
 ## Deferred Items
 
