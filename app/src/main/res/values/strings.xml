@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- D-07 : label launcher court. Le nom complet « ShortifyLocal AI » reste réservé au
+         partage/à-propos/store (phases ultérieures). Aucune chaîne UI en dur ailleurs. -->
+    <string name="app_name">ShortifyLocal</string>
+</resources>

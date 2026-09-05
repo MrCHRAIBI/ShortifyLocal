@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- AccentActive clair du design system Soft-Clean (docs/02 §1.1) comme fond d'icône par défaut. -->
+    <color name="ic_launcher_background">#E4590C</color>
+</resources>

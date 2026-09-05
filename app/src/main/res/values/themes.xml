@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Thème framework (pas de dépendance material XML) ; variante nuit dans values-night. -->
+    <style name="Theme.ShortifyLocal" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
