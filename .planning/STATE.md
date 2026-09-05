@@ -79,6 +79,7 @@ Recent decisions affecting current work:
 - [Phase 01-03]: softShadow = Option A (Modifier.shadow elevation 6.dp couleurs token) ; Option B drawBehind reste le recours si la revue visuelle 01-04 juge insuffisant — softShadow = Option A (Modifier.shadow elevation 6.dp couleurs token) ; Option B drawBehind reste le recours si la revue visuelle 01-04 juge insuffisant
 - [Phase 01-03]: Correction compile : le sketch plan lisait LocalSoftCleanDark.current dans un callback non composable — capture en contexte composable (Rule 1) ; + @AndroidEntryPoint requis par hiltViewModel (Rule 2) — Correction compile : le sketch plan lisait LocalSoftCleanDark.current dans un callback non composable — capture en contexte composable (Rule 1) ; + @AndroidEntryPoint requis par hiltViewModel (Rule 2)
 - [Phase 01]: [Phase 01-04] Blocage ABI du fork clos cote emulateur : adb install Success sur sdk_gphone64_x86_64 (AAR 8.1.7 arm64-v8a + x86_64, .so jamais charges en P1) — moitie physique (D-03) restant a l'UAT
+- 2026-09-05 : Phase 1 scellée — double cible (émulateur x86_64 + téléphone ARM64 adb Wi-Fi) prouvée, 8 prohibitions vérifiées mécaniquement, coquille Soft-Clean thémée et persistante.
 
 ### Pending Todos
 
@@ -91,12 +92,10 @@ Résolus (2026-09-05) :
 - ✓ Décision GPL-3.0 acceptée (NewPipeExtractor + ffmpeg-kit-full-gpl).
 - ✓ Substitution fork ffmpegkit-maintained validée.
 - ✓ Stratégie de distribution validée : Play repositionné « studio de montage IA » + plan B APK signé.
-- ✓ Coordonnée Maven + checksum du fork épinglés dans `libs.versions.toml` (plan 01-01 : `dev.ffmpegkit-maintained:ffmpeg-kit-full-gpl:8.1.7`, SHA-256 vérifié triple-source).
 - ✓ CONTRADICTION E2 compileSdk résolue : amendement E2 approuvé par le propriétaire de spec (option A) — compileSdk 37, targetSdk 36 / minSdk 33 inchangés ; assembleDebug vert.
 
 Ouverts :
 
-- Phase 1 : disponibilité x86_64 du fork à confirmer (sinon appareil/émulateur ARM64) — au plan 01-04.
 - L'appareil physique (leg R7/D-03) - executer ANDROID_SERIAL=<serial> bash scripts/verify_emulator_p1.sh puis copier les captures vers screens/device-shell.png ; humain-valide via UAT fin de phase
 
 ## Deferred Items
