@@ -1,6 +1,13 @@
 ---
-gsd_state_version: '1.0'  # placeholder; syncStateFrontmatter overwrites on first state.* call
+gsd_state_version: 1.0
+current_phase: 1
+current_phase_name: Échafaudage & décisions bloquantes
 status: planning
+stopped_at: Phase 1 context gathered
+last_updated: "2026-09-05T13:07:53.442Z"
+last_activity: 2026-09-04
+last_activity_desc: Roadmap créé (7 phases, 47 exigences v1 mappées à 100 %)
+state_head: ec52b4fa5d4ea36b5f137692c84919b2ef22d6a2
 progress:
   total_phases: 7
   completed_phases: 0
@@ -8,6 +15,7 @@ progress:
   completed_plans: 0
   percent: 0
 ---
+
 # Project State
 
 ## Project Reference
@@ -29,6 +37,7 @@ Progress: [░░░░░░░░░░] 0%
 ## Performance Metrics
 
 **Velocity:**
+
 - Total plans completed: 0
 - Average duration: — min
 - Total execution time: 0.0 hours
@@ -40,6 +49,7 @@ Progress: [░░░░░░░░░░] 0%
 | - | - | - | - |
 
 **Recent Trend:**
+
 - Last 5 plans: —
 - Trend: Stable
 
@@ -64,11 +74,13 @@ None yet.
 ### Blockers/Concerns
 
 Résolus (2026-09-05) :
+
 - ✓ Décision GPL-3.0 acceptée (NewPipeExtractor + ffmpeg-kit-full-gpl).
 - ✓ Substitution fork ffmpegkit-maintained validée.
 - ✓ Stratégie de distribution validée : Play repositionné « studio de montage IA » + plan B APK signé.
 
 Ouverts :
+
 - Phase 1 : disponibilité x86_64 du fork à confirmer (sinon appareil/émulateur ARM64).
 - Phase 1 : coordonnée Maven exacte + checksum du fork à épingler dans `libs.versions.toml`.
 
@@ -82,6 +94,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-04
-Stopped at: ROADMAP.md + STATE.md créés, traceability de REQUIREMENTS.md remplie — en attente de validation du roadmap par l'utilisateur
-Resume file: None
+Last session: 2026-09-05T13:07:53.376Z
+Stopped at: Phase 1 context gathered
+Resume file: .planning/phases/01-chafaudage-d-cisions-bloquantes/01-CONTEXT.md
