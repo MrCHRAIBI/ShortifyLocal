@@ -1,0 +1,48 @@
+{
+  "contract": "1.0.0",
+  "flavor": "core",
+  "milestone": null,
+  "phases": [
+    {
+      "number": "1",
+      "name": "Échafaudage & décisions bloquantes",
+      "status": "pending"
+    },
+    {
+      "number": "2",
+      "name": "Fondations natives (spike critique)",
+      "status": "pending"
+    },
+    {
+      "number": "3",
+      "name": "Contrats domain & socle de données",
+      "status": "pending"
+    },
+    {
+      "number": "4",
+      "name": "Pipeline A→C — de l'URL aux segments",
+      "status": "pending"
+    },
+    {
+      "number": "5",
+      "name": "Pipeline D→F — premier Short rendu",
+      "status": "pending"
+    },
+    {
+      "number": "6",
+      "name": "Écrans & interface live",
+      "status": "pending"
+    },
+    {
+      "number": "7",
+      "name": "Monétisation, i18n & durcissement",
+      "status": "pending"
+    }
+  ],
+  "next": {
+    "command": "/gsd:progress --next",
+    "label": "Advance to the next step",
+    "reason": "Phase 1 of 7 · 0% · executing"
+  },
+  "updated_at": "2026-09-05T15:30:16.606Z"
+}
