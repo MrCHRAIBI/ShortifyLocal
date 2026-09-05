@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 current_phase: 01
 current_phase_name: Échafaudage & décisions bloquantes
 status: executing
-stopped_at: Completed 01-02-PLAN.md
-last_updated: "2026-09-05T20:16:24.489Z"
+stopped_at: Completed 01-03-PLAN.md
+last_updated: "2026-09-05T21:13:08.475Z"
 last_activity: 2026-09-05
 last_activity_desc: Phase 01 execution started
-state_head: 82b05d6febdb02a24571caeba466cf863df8f365
+state_head: aa24a60328efc89f2d336a5c69e22c515f72de71
 progress:
   total_phases: 7
   completed_phases: 0
   total_plans: 4
-  completed_plans: 2
+  completed_plans: 3
   percent: 0
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (mis à jour 2026-09-04)
 ## Current Position
 
 Phase: 01 (Échafaudage & décisions bloquantes) — EXECUTING
-Plan: 3 of 4
+Plan: 4 of 4
 Status: Ready to execute
 Last activity: 2026-09-05 — Phase 01 execution started
 
@@ -60,6 +60,7 @@ Progress: [░░░░░░░░░░] 0%
 |------|----------|-------|-------|
 | Phase 01 P01 | 8 | 3 tasks | 24 files |
 | Phase 01 P02 | 6 min | 2 tasks | 10 files |
+| Phase 01-03 P01-03 | 14 min | 2 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -74,6 +75,8 @@ Recent decisions affecting current work:
 - 2026-09-05 : 4 décisions propriétaire consignées dans PROJECT.md (GPL-3.0, fork ffmpeg-kit 8.1.7, distribution hybride, épinglage versions 2026-09).
 - [Phase 1]: compileSdk 37 (amendement E2 approuve 2026-09-05, option A) : les AAR androidx epingles exigent minCompileSdk=37 ; targetSdk 36 / minSdk 33 inchanges — impact build-time uniquement
 - [Phase 01]: Tranche Room v1 reportee en Phase 3 (DATA-01) — decision proprietaire B du 2026-09-05 : Room 2.8.4 refuse un @Database sans entites ; plan 01-2 livre l'arborescence Clean Architecture + theme DataStore (D-05) sans aucun code Room en P1 — Aucune variante jetable acceptee (entite temoin, faux schema) ; le cablage build Room du plan 01-01 reste en place inerte ; amend commit 0696d5b
+- [Phase 01-03]: softShadow = Option A (Modifier.shadow elevation 6.dp couleurs token) ; Option B drawBehind reste le recours si la revue visuelle 01-04 juge insuffisant — softShadow = Option A (Modifier.shadow elevation 6.dp couleurs token) ; Option B drawBehind reste le recours si la revue visuelle 01-04 juge insuffisant
+- [Phase 01-03]: Correction compile : le sketch plan lisait LocalSoftCleanDark.current dans un callback non composable — capture en contexte composable (Rule 1) ; + @AndroidEntryPoint requis par hiltViewModel (Rule 2) — Correction compile : le sketch plan lisait LocalSoftCleanDark.current dans un callback non composable — capture en contexte composable (Rule 1) ; + @AndroidEntryPoint requis par hiltViewModel (Rule 2)
 
 ### Pending Todos
 
@@ -103,6 +106,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-05T20:16:24.462Z
-Stopped at: Completed 01-02-PLAN.md
+Last session: 2026-09-05T21:12:48.255Z
+Stopped at: Completed 01-03-PLAN.md
 Resume file: None
