@@ -54,6 +54,8 @@ fun ShortifyLocalTheme(
         onPrimary = if (dark) Color.Black else Color.White,
         secondary = accentActive,
         onSecondary = Color.White,
+        secondaryContainer = accentActive,
+        onSecondaryContainer = if (dark) Color(0xFF0E0E10) else Color.White,
     )
 
     MaterialTheme(
