@@ -9,7 +9,7 @@ Périmètre v1 = intégralité du cahier des charges normatif (`docs/` 01–05).
 
 ### Fondations (PROJ)
 
-- [ ] **PROJ-01**: Le projet se compile en APK debug sur la toolchain épinglée (Kotlin récent vérifié, AGP, Gradle, JDK 17, minSdk 33, targetSdk 36) avec catalogue unique `gradle/libs.versions.toml` — clause de fraîcheur appliquée et notée (Partie 1 §2)
+- [x] **PROJ-01**: Le projet se compile en APK debug sur la toolchain épinglée (Kotlin récent vérifié, AGP, Gradle, JDK 17, minSdk 33, targetSdk 36) avec catalogue unique `gradle/libs.versions.toml` — clause de fraîcheur appliquée et notée (Partie 1 §2)
 - [ ] **PROJ-02**: Les bibliothèques natives (whisper.cpp, ffmpeg-kit et son substitut) sont alignées 16 KB page size et l'app s'installe et se lance sur Android 13+ (Partie 1 §2.2)
 - [ ] **PROJ-03**: L'architecture respecte Clean Architecture + MVVM strict : couche `domain` sans import Android, Composables sans logique métier, flux unidirectionnel ViewModel → UseCase → Repository (Partie 1 §3)
 
@@ -115,7 +115,7 @@ Quelles phases couvrent quelles exigences. Rempli lors de la création du roadma
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PROJ-01 | Phase 1 | Pending |
+| PROJ-01 | Phase 1 | Complete |
 | PROJ-02 | Phase 2 | Pending |
 | PROJ-03 | Phase 3 | Pending |
 | PIPE-01 | Phase 4 | Pending |
@@ -164,6 +164,7 @@ Quelles phases couvrent quelles exigences. Rempli lors de la création du roadma
 | I18N-03 | Phase 7 | Pending |
 
 **Coverage:**
+
 - v1 requirements: 47 total
 - Mapped to phases: 47
 - Unmapped: 0 ✓
