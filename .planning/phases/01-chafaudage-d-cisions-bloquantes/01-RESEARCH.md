@@ -633,21 +633,24 @@ All labels from `strings.xml` (`tab_accueil`/`tab_historique`/`tab_parametres`),
 | A6 | Foojay resolver successfully provisions JDK 17 on this machine if toolchain detection finds none | Environment | Low risk locally (JDK 17.0.10 already on PATH, Gradle detects common Windows locations); foojay is the documented mechanism — first build confirms |
 | A7 | Catalog entries for later-phase deps (ads, UMP, ML Kit, JitPack extractor…) can sit unresolved in the catalog without a build cost | Pattern 4 | None — catalog entries resolve lazily on first reference; JitPack repo deliberately deferred to Phase 4 |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Foojay inline version vs "zéro version inline" constraint**
    - What we know: Gradle cannot resolve catalog aliases in `settings.gradle.kts`' own plugins block.
    - What's unclear: whether the user accepts the single documented inline exception.
    - Recommendation: proceed with `version("1.0.0")` + TOML comment; mention in plan (no user gate required for a Gradle-platform limitation).
+   - **RESOLVED (2026-09-05):** 01-01-PLAN.md Task 1 — le bloc `plugins` du settings déclare foojay `1.0.0` inline avec le commentaire d'exception documentée ; Task 3 audite « zéro version inline » en tolérant uniquement cette occurrence.
 
 2. **Physical device not currently attached** (`adb devices` empty this session)
    - What we know: D-03 requires an ARM64 Android 13+ phone over adb USB for R7's second target.
    - What's unclear: availability at execution time.
    - Recommendation: emulator fully validates everything except the literal "physical ARM64" acceptance line; keep device checks as end-of-phase manual verification (matches `human_verify_mode: end-of-phase`).
+   - **RESOLVED (2026-09-05):** 01-04-PLAN.md Task 3 — émulateur comme cible automatisée d'install/launch ; l'appareil physique ARM64 passe en vérification humaine de fin de phase (conforme `human_verify_mode: end-of-phase`).
 
 3. **`allowBackup` default (true) in P1**
    - What we know: SEC-04 sets `allowBackup=false` in Phase 7; P1 stores only the theme.
    - Recommendation: leave default in P1 (spec has no P1 criterion), or set `false` now as free forward-compatibility — planner's call; zero risk either way.
+   - **RESOLVED (2026-09-05):** 01-01-PLAN.md Task 2 — le manifest pose `android:allowBackup="false"` dès P1 (forward-compat SEC-04 gratuite, zéro risque).
 
 ## Environment Availability
 
