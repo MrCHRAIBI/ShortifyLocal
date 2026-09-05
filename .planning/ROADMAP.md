@@ -36,7 +36,7 @@ Les phases décimales s'exécutent entre leurs phases entières encadrantes, en 
   3. La structure Clean Architecture (couches domain/data/ui) est en place, avec WorkManager + Hilt initialisés et coquille de thème clair/sombre persistée DataStore — la tranche Room v1 (schéma commité) est reprogrammée en Phase 3 (décision propriétaire B du 2026-09-05 : Room 2.8.4 rejette un `@Database` sans entités).
   4. Les décisions bloquantes sont actées et consignées dans PROJECT.md (Key Decisions) : licence GPL-3.0 acceptée pour NewPipeExtractor et ffmpeg-kit-full-gpl, positionnement Play « studio de montage IA » avec plan B distribution directe (APK signé), stratégie x86_64/appareil ARM64 pour le développement.
 
-**Plans:** 3/4 plans executed
+**Plans:** 4/4 plans executed
 
 Plans:
 **Wave 1**
@@ -53,7 +53,7 @@ Plans:
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
-- [ ] 01-04-PLAN.md — Vérification : batterie mécanique scriptée, double cible émulateur, human-checks appareil physique + visuel
+- [x] 01-04-PLAN.md — Vérification : batterie mécanique scriptée, double cible émulateur, human-checks appareil physique + visuel
 
 **Cross-cutting constraints:**
 
@@ -163,7 +163,7 @@ Phases exécutées en ordre numérique : 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Échafaudage & décisions bloquantes | 3/4 | In Progress|  |
+| 1. Échafaudage & décisions bloquantes | 4/4 | In Progress|  |
 | 2. Fondations natives (spike critique) | 0/TBD | Not started | - |
 | 3. Contrats domain & socle de données | 0/TBD | Not started | - |
 | 4. Pipeline A→C — de l'URL aux segments | 0/TBD | Not started | - |

@@ -2,17 +2,17 @@
 gsd_state_version: 1.0
 current_phase: 01
 current_phase_name: Échafaudage & décisions bloquantes
-status: executing
-stopped_at: Completed 01-03-PLAN.md
-last_updated: "2026-09-05T21:13:08.475Z"
+status: verifying
+stopped_at: Completed 01-04-PLAN.md (phase prete pour verification)
+last_updated: "2026-09-05T21:39:48.310Z"
 last_activity: 2026-09-05
 last_activity_desc: Phase 01 execution started
-state_head: aa24a60328efc89f2d336a5c69e22c515f72de71
+state_head: 01d5e6980a9f35f50bdb7b2528b295475e367cb5
 progress:
   total_phases: 7
   completed_phases: 0
   total_plans: 4
-  completed_plans: 3
+  completed_plans: 4
   percent: 0
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (mis à jour 2026-09-04)
 
 Phase: 01 (Échafaudage & décisions bloquantes) — EXECUTING
 Plan: 4 of 4
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-09-05 — Phase 01 execution started
 
 Progress: [░░░░░░░░░░] 0%
@@ -61,6 +61,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01 P01 | 8 | 3 tasks | 24 files |
 | Phase 01 P02 | 6 min | 2 tasks | 10 files |
 | Phase 01-03 P01-03 | 14 min | 2 tasks | 10 files |
+| Phase 01 P04 | 17 min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -77,6 +78,7 @@ Recent decisions affecting current work:
 - [Phase 01]: Tranche Room v1 reportee en Phase 3 (DATA-01) — decision proprietaire B du 2026-09-05 : Room 2.8.4 refuse un @Database sans entites ; plan 01-2 livre l'arborescence Clean Architecture + theme DataStore (D-05) sans aucun code Room en P1 — Aucune variante jetable acceptee (entite temoin, faux schema) ; le cablage build Room du plan 01-01 reste en place inerte ; amend commit 0696d5b
 - [Phase 01-03]: softShadow = Option A (Modifier.shadow elevation 6.dp couleurs token) ; Option B drawBehind reste le recours si la revue visuelle 01-04 juge insuffisant — softShadow = Option A (Modifier.shadow elevation 6.dp couleurs token) ; Option B drawBehind reste le recours si la revue visuelle 01-04 juge insuffisant
 - [Phase 01-03]: Correction compile : le sketch plan lisait LocalSoftCleanDark.current dans un callback non composable — capture en contexte composable (Rule 1) ; + @AndroidEntryPoint requis par hiltViewModel (Rule 2) — Correction compile : le sketch plan lisait LocalSoftCleanDark.current dans un callback non composable — capture en contexte composable (Rule 1) ; + @AndroidEntryPoint requis par hiltViewModel (Rule 2)
+- [Phase 01]: [Phase 01-04] Blocage ABI du fork clos cote emulateur : adb install Success sur sdk_gphone64_x86_64 (AAR 8.1.7 arm64-v8a + x86_64, .so jamais charges en P1) — moitie physique (D-03) restant a l'UAT
 
 ### Pending Todos
 
@@ -95,6 +97,7 @@ Résolus (2026-09-05) :
 Ouverts :
 
 - Phase 1 : disponibilité x86_64 du fork à confirmer (sinon appareil/émulateur ARM64) — au plan 01-04.
+- L'appareil physique (leg R7/D-03) - executer ANDROID_SERIAL=<serial> bash scripts/verify_emulator_p1.sh puis copier les captures vers screens/device-shell.png ; humain-valide via UAT fin de phase
 
 ## Deferred Items
 
@@ -106,6 +109,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-05T21:12:48.255Z
-Stopped at: Completed 01-03-PLAN.md
+Last session: 2026-09-05T21:39:48.280Z
+Stopped at: Completed 01-04-PLAN.md (phase prete pour verification)
 Resume file: None
