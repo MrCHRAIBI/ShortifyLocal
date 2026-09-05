@@ -3,16 +3,32 @@ package com.shortifylocal.ai
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.Text
-import androidx.compose.ui.res.stringResource
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.shortifylocal.ai.presentation.navigation.AppShell
+import com.shortifylocal.ai.presentation.theme.ShortifyLocalTheme
+import com.shortifylocal.ai.presentation.theme.ThemeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-// Coquille minimale P1 (preuve du chemin manifest → Application Hilt → Activity) —
-// remplacée par l'écran réel au plan 01-03. Aucune chaîne en dur : ressource app_name.
+/**
+ * Hôte Compose P1 : setContent → ShortifyLocalTheme (D-05/D-06) → AppShell (3 onglets).
+ * Chemin complet de la bascule : tap → vm.toggleTheme(systemDark) → ThemeRepository →
+ * DataStore « settings » → StateFlow → recomposition.
+ */
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Text(text = stringResource(R.string.app_name))
+            val vm: ThemeViewModel = hiltViewModel()
+            val mode by vm.themeMode.collectAsStateWithLifecycle()
+            ShortifyLocalTheme(themeMode = mode) {
+                AppShell(
+                    themeMode = mode,
+                    onThemeToggle = { systemDark -> vm.toggleTheme(systemDark) },
+                )
+            }
         }
     }
 }

@@ -3,4 +3,12 @@
     <!-- D-07 : label launcher court. Le nom complet « ShortifyLocal AI » reste réservé au
          partage/à-propos/store (phases ultérieures). Aucune chaîne UI en dur ailleurs. -->
     <string name="app_name">ShortifyLocal</string>
+
+    <!-- Coquille P1 : libellés d'onglets + contrôle de bascule du thème (docs/02 §3).
+         FR par défaut — i18n 7 langues = Phase 7 (docs/02 §8). -->
+    <string name="tab_accueil">Accueil</string>
+    <string name="tab_historique">Historique</string>
+    <string name="tab_parametres">Paramètres</string>
+    <string name="settings_appearance">Apparence</string>
+    <string name="theme_toggle_cd">Basculer le thème clair/sombre</string>
 </resources>
