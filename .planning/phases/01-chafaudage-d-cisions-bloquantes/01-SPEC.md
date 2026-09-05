@@ -6,7 +6,7 @@
 
 ## Goal
 
-Le dépôt passe de « zéro fichier build » à « `./gradlew assembleDebug` produit un APK debug installable et lançable sur émulateur Android 13+ ET appareil physique ARM64 », depuis un socle verrouillé : catalogue de versions unique conforme à l'errata du 2026-09-05, fork `ffmpegkit-maintained` épinglé avec checksum, coquille Compose à 3 destinations thémée Soft-Clean, et plomberie Hilt/WorkManager/Room initialisée.
+Le dépôt passe de « zéro fichier build » à « `./gradlew assembleDebug` produit un APK debug installable et lançable sur émulateur Android 13+ ET appareil physique ARM64 », depuis un socle verrouillé : catalogue de versions unique conforme à l'errata du 2026-09-05, fork `ffmpegkit-maintained` épinglé avec checksum, coquille Compose à 3 destinations thémée Soft-Clean, et plomberie Hilt/WorkManager initialisée (tranche Room reprogrammée en Phase 3 — décision propriétaire B du 2026-09-05, voir exigence 5).
 
 ## Background
 
@@ -34,10 +34,10 @@ Aucun code n'existe : le dépôt ne contient que le cahier des charges normatif 
    - Target: packages `presentation/ domain/ data/ worker/ di/ util/` sous `com.shortifylocal.ai` conformes à l'arborescence Partie 1 §3.2 ; `domain/` pur Kotlin
    - Acceptance: l'arborescence existe ; grep `import android`/`import androidx` dans `domain/` = 0
 
-5. **Plomberie Hilt / WorkManager / Room initialisée** : les frameworks sont câblés, prêts pour les Phases 3–4.
+5. **Plomberie Hilt / WorkManager initialisée** : les frameworks sont câblés, prêts pour les Phases 3–4. AMENDEMENT (2026-09-05, décision propriétaire B) : la tranche Room v1 — `AppDatabase` sans entités, `DatabaseModule`, DB `shortify_local.db`, schéma exporté commité — est **reprogrammée en Phase 3 (DATA-01)**. Justification : Room 2.8.4 rejette sans condition un `@Database` sans entités (échec KSP « @Database annotation must specify list of entities », aucun flag de contournement, pas d'alternative views) — toute variante P1 exigerait du code jetable refusé par le propriétaire.
    - Current: rien n'existe
-   - Target: `@HiltAndroidApp` + `Configuration.Provider` avec `HiltWorkerFactory` ; Room configurée : KSP2, `AppDatabase` version 1 (zéro entité — les 4 entités arrivent en Phase 3), `exportSchema=true`, dossier de schéma commité, nom de DB `shortify_local.db`
-   - Acceptance: l'app démarre sans crash avec Hilt opérationnel (injection vérifiable) ; le build génère le schéma Room commité ; grep `fallbackToDestructiveMigration` = 0
+   - Target: `@HiltAndroidApp` + `Configuration.Provider` avec `HiltWorkerFactory` ; arborescence Clean Architecture en place (packages normatifs avec .gitkeep) ; dépendances Room 2.8.4 + KSP2 restant épinglés au catalogue E2 (inertes sans classe `@Database`) pour la Phase 3
+   - Acceptance: l'app démarre sans crash avec Hilt opérationnel (injection vérifiable) ; `assembleDebug` vert sans aucun fichier Room en P1 ; grep `fallbackToDestructiveMigration` = 0
 
 6. **Fork ffmpeg-kit épinglé et résoluble** : l'artefact mort est banni du build.
    - Current: aucun build ; le cahier des charges référence encore `com.arthenica:ffmpeg-kit-full-gpl:6.0-2` (404 Maven Central)
@@ -57,14 +57,14 @@ Aucun code n'existe : le dépôt ne contient que le cahier des charges normatif 
 - Coquille Compose : 3 destinations vides + navigation + tokens Soft-Clean (couleurs, rayons, ombre) clair/sombre
 - Bascule thème persistée DataStore
 - Arborescence Clean Architecture (packages vides ou quasi vides)
-- Wiring Hilt + WorkManager (worker factory) + Room (v1 sans entités, schéma exporté)
+- Wiring Hilt + WorkManager (worker factory) — la tranche Room (v1 sans entités, schéma exporté) est reportée en Phase 3 (décision propriétaire B)
 - Dépendance fork ffmpeg-kit 8.1.7 déclarée et résolue, checksum consigné
 - Icône launcher par défaut d'Android Studio (branding final hors P1)
 
 **Out of scope:**
 - Exécution de commandes FFmpeg ou whisper — Phase 2 (spike natif ; les `.so` embarquent mais ne sont jamais chargés en P1)
 - Module `whisper-native/` (CMake/NDK/JNI) — Phase 2
-- Entités Room, DAOs, repositories — Phase 3 (DATA-01…05)
+- Entités Room, DAOs, repositories — Phase 3 (DATA-01…05) ; la tranche Room v1 (`AppDatabase` sans entités, `DatabaseModule`, schéma exporté, DB `shortify_local.db`) est également reprogrammée Phase 3 (décision propriétaire B du 2026-09-05 : Room 2.8.4 rejette un `@Database` sans entités)
 - Coffre-fort chiffré, HMAC, économie de tokens — Phase 3 (SEC-01/02, TOK-01/04)
 - Pipeline A→F, NewPipeExtractor en dépendance active — Phases 4–5 (PIPE-*)
 - Composants du design system (SoftCard, TokenPill, etc.), écrans réels, typographie complète & polices bundlées — Phase 6 (UI-* ; P1 n'apporte que les tokens couleurs/rayons/ombre)
@@ -88,7 +88,7 @@ Aucun code n'existe : le dépôt ne contient que le cahier des charges normatif 
 - [ ] Bascule clair/sombre → force-stop → relance : le thème restauré est le dernier choisi (émulateur ET physique)
 - [ ] Les tokens Soft-Clean sont définis dans le thème : couleurs §1.1 clair/sombre, rayons 32/24/16/28, une seule ombre douce verticale §1.2
 - [ ] `domain/` contient 0 import `android.*`/`androidx.*` (grep)
-- [ ] `AppDatabase` v1 compile, `exportSchema=true`, schéma JSON commité, DB nommée `shortify_local.db`
+- [ ] *(Reporté Phase 3 — décision propriétaire B du 2026-09-05)* `AppDatabase` v1 compile, `exportSchema=true`, schéma JSON commité, DB nommée `shortify_local.db` — Room 2.8.4 rejette un `@Database` sans entités : la tranche complète (schéma inclus) est livrée avec les entités en DATA-01
 - [ ] Zéro chaîne UI en dur dans la coquille — les 3 libellés d'onglets passent par les ressources (grep littéraux dans les Composables = 0)
 - [ ] Zéro alignement Left/Right dans le code UI (grep) ; `supportsRtl=true` dans le manifest
 - [ ] Manifest sans `READ_MEDIA*`, `READ_EXTERNAL_STORAGE`, `ACCESS_*_LOCATION`, `READ_CONTACTS` et sans `usesCleartextTraffic="true"` (grep)
@@ -106,7 +106,7 @@ Aucun code n'existe : le dépôt ne contient que le cahier des charges normatif 
 | unclassified | R2 | ⛔ dismissed | Écrans vides assumés en P1 — le contenu réel arrive en Phase 6 |
 | idempotency | R3 | ⛔ dismissed | DataStore écrit atomiquement ; la persistance après relance (critère 5) couvre le cas |
 | concurrency | R3 | ⛔ dismissed | Écritures DataStore sérialisées ; UI mono-utilisateur |
-| empty | R5 | ✅ covered | Critère d'acceptation 8 : `AppDatabase` v1 sans entités compile, schéma commité — entités en Phase 3 |
+| empty | R5 | 🔁 reprogrammé | Critère d'acceptation 8 reporté Phase 3 (DATA-01, décision propriétaire B du 2026-09-05) : Room 2.8.4 rejette un `@Database` sans entités — le schéma sera exporté avec les entités |
 | encoding | R5 | ⛔ dismissed | Aucune donnée textuelle utilisateur en P1 ; Unicode = exigence DATA-03 (Phase 3) |
 | supply-chain (relevé manuel) | R6 | ✅ covered | Critère d'acceptation 3 : checksum SHA-256 consigné + résolution Maven Central uniquement |
 | ABI (relevé manuel) | R6 | ✅ covered | Couvert par R7 (critère 4) : install émulateur x86_64 + physique arm64, `.so` jamais chargés en P1 |

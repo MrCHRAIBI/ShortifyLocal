@@ -33,7 +33,7 @@ Les phases décimales s'exécutent entre leurs phases entières encadrantes, en 
 
   1. `assembleDebug` produit un APK installable depuis le catalogue unique `gradle/libs.versions.toml` avec versions vérifiées contre les registres officiels (clause de fraîcheur appliquée et notée) — le build ne référence plus l'artefact mort `com.arthenica:ffmpeg-kit-full-gpl` mais le fork maintenu épinglé (coordonnée exacte + version + checksum consignés).
   2. L'app s'installe et se lance sur un appareil/émulateur Android 13+ en affichant la coquille Compose avec sa navigation à 3 destinations vide.
-  3. La structure Clean Architecture (couches domain/data/ui) est en place, avec WorkManager + Hilt + Room initialisés et coquille de thème clair/sombre persistée.
+  3. La structure Clean Architecture (couches domain/data/ui) est en place, avec WorkManager + Hilt initialisés et coquille de thème clair/sombre persistée DataStore — la tranche Room v1 (schéma commité) est reprogrammée en Phase 3 (décision propriétaire B du 2026-09-05 : Room 2.8.4 rejette un `@Database` sans entités).
   4. Les décisions bloquantes sont actées et consignées dans PROJECT.md (Key Decisions) : licence GPL-3.0 acceptée pour NewPipeExtractor et ffmpeg-kit-full-gpl, positionnement Play « studio de montage IA » avec plan B distribution directe (APK signé), stratégie x86_64/appareil ARM64 pour le développement.
 
 **Plans:** 1/4 plans executed
@@ -45,7 +45,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 01-02-PLAN.md — Plomberie : arborescence Clean Architecture, Room v1 schéma commité, persistance thème DataStore (D-05)
+- [ ] 01-02-PLAN.md — Plomberie : arborescence Clean Architecture, persistance thème DataStore (D-05) — slice Room reporté en Phase 3 (décision propriétaire B)
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
