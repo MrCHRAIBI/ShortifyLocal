@@ -16,7 +16,7 @@ Seul le module `:app` existe : il compile, s'installe et se lance (émulateur x8
 
 1. **Module whisper-native** : module Gradle `whisper-native/` (Android library) compilant whisper.cpp épinglé commit exact `b4938` (submodule git) via CMake/NDK avec bindings JNI Kotlin, produisant des `.so` pour arm64-v8a + x86_64 avec les flags linker 16 KB de l'errata.
    - Current: aucun module natif, aucune config CMake/NDK, aucun binding JNI ; whisper.cpp `b4938` en entrée commentaire du catalogue seulement
-   - Target: module `whisper-native/` intégré via `externalNativeBuild` CMake ; submodule épinglé à `b4938` ; `ndkVersion` câblé depuis une entrée unique de `gradle/libs.versions.toml` (≥ r28, dernière stable compatible b4938, clause de fraîcheur E2 — version exacte + date de vérification consignées dans la fiche phase et PROJECT.md) ; ABIs arm64-v8a + x86_64 (x86_64 compile-only pour tests unitaires, jamais exécuté)
+   - Target: module `whisper-native/` intégré via `externalNativeBuild` CMake ; submodule épinglé à `b4938` ; `ndkVersion` câblé depuis une entrée unique de `gradle/libs.versions.toml` (≥ r28, dernière stable compatible b4938, clause de fraîcheur E2 — version exacte + date de vérification consignées dans la fiche phase et PROJECT.md) ; ABIs arm64-v8a + x86_64 (x86_64 compile-only pour tests unitaires, jamais exécuté) ; répartition verrouillée : le module whisper-native/ héberge le build natif (submodule, CMake/NDK, bindings bruts) ; le wrapper Kotlin JNI (API de transcription + abort callback) vit dans la couche data de :app sous data/native/whisper/ (anti-sèche), exercé en P2 uniquement par l'instrumentation
    - Acceptance: sur un clone frais, `git submodule update --init` puis build OK (2 ABIs produites) ; submodule absent → échec CMake explicite (message actionnable, pas d'échec cryptique) ; l'entrée NDK existe dans le catalogue avec sa date de vérification
 
 2. **Preuve FFmpeg du fork sur appareil** : un test d'instrumentation exécute une commande FFmpeg triviale du fork — conversion en WAV 16 kHz mono pcm_s16le — puis un pass `volumedetect`, chacun avec rc=0, et asserte les propriétés du WAV produit via FFprobeKit.
@@ -26,7 +26,7 @@ Seul le module `:app` existe : il compile, s'installe et se lance (émulateur x8
 
 3. **Transcription mot-à-mot validée contre manifest TTS** : whisper.cpp transcrit le WAV fonctionnel avec `token_timestamps=true` et restitue chaque mot `{word, start, end}` en millisecondes ; l'alignement est asserté mécaniquement contre le manifest de synthèse.
    - Current: aucun code whisper, aucune transcription, aucune ground truth
-   - Target: bindings JNI retournant le JSON normatif ; contrat d'appariement : normalisation (minuscules, ponctuation retirée) puis appariement manifest→whisper par rang ; assertions : ≥ 1 mot, |start_whisper − start_manifest| ≤ 200 ms par mot apparié, starts monotones non décroissants, end ≥ start
+   - Target: bindings JNI retournant le JSON normatif ; paramètres whisper verrouillés : token_timestamps=true, max_len=1, split_on_word=true (sortie mot-à-mot, anti-sèche) ; contrat d'appariement : normalisation (minuscules, ponctuation retirée) puis appariement manifest→whisper par rang ; assertions : ≥ 1 mot, |start_whisper − start_manifest| ≤ 200 ms par mot apparié, starts monotones non décroissants, end ≥ start
    - Acceptance: test instrumenté vert avec le contrat ci-dessus ; transcription vide (0 mot) → échec explicite du test (jamais de PASS vacuo)
 
 4. **Asset de test généré par script (zéro binaire versionné)** : un script versionné génère on-device (1) le WAV fonctionnel ~1 min via TTS système avec silence inter-mots de 200 ms et manifest JSON des timestamps exacts par construction, (2) le WAV benchmark 15–20 min par boucles FFmpeg du WAV fonctionnel (non versionné).
@@ -52,7 +52,7 @@ Seul le module `:app` existe : il compile, s'installe et se lance (émulateur x8
 ## Boundaries
 
 **In scope:**
-- Module `whisper-native/` : submodule whisper.cpp épinglé b4938, CMake/NDK, bindings JNI, NDK épinglé ≥ r28 (clause fraîcheur E2), flags linker 16 KB, ABIs arm64-v8a + x86_64
+- Module `whisper-native/` : submodule whisper.cpp épinglé b4938, CMake/NDK, bindings JNI, NDK épinglé ≥ r28 (clause fraîcheur E2), flags linker 16 KB, ABIs arm64-v8a + x86_64 ; wrapper Kotlin JNI dans data/native/whisper/ (couche data de :app)
 - Tests d'instrumentation spike : FFmpeg conversion + `volumedetect` + assertions FFprobeKit, transcription mot-à-mot + assertions manifest TTS
 - Scripts versionnés : génération assets TTS (+manifest), `verify_p2.sh` (16 KB + intégrité SHA-256 des `.so` du fork)
 - Benchmark on-device Tiny/Base/Small → `02-BENCHMARK.md` + ligne PROJECT.md Key Decisions (défaut Base figé)
@@ -60,7 +60,7 @@ Seul le module `:app` existe : il compile, s'installe et se lance (émulateur x8
 - Épinglage NDK dans `gradle/libs.versions.toml` (entrée unique, `ndkVersion`)
 
 **Out of scope:**
-- Pipeline utilisateur (téléchargement YouTube, NewPipeExtractor, worker foreground, annulation) — Phase 4
+- Pipeline utilisateur (téléchargement YouTube, NewPipeExtractor, worker foreground, annulation utilisateur worker/UI) — Phase 4
 - UI, y compris tout écran/bouton debug — le spike vit exclusivement en instrumentation ; les écrans sont Phase 6
 - Room, coffre-fort HMAC, Whisper Manager (téléchargement de modèles, SEC-05) — Phase 3
 - Gemini BYOK, découpage en segments scorés — Phase 4
@@ -75,6 +75,7 @@ Seul le module `:app` existe : il compile, s'installe et se lance (émulateur x8
 - Toolchain épinglée : NDK ≥ r28 — dernière stable compatible whisper.cpp b4938, clause de fraîcheur E2 (version exacte + date de vérification consignées) ; flags linker 16 KB prescrits par l'errata
 - whisper.cpp submodule épinglé au commit exact `b4938` — jamais de version flottante
 - Fork ffmpeg-kit 8.1.7 inchangé : aucun patch/modification des `.so` prébuilds (le check porte sur les binaires tels qu'embarqués)
+- Niveau natif (Phase 2, ERRATA E3) : le wrapper JNI expose un abort callback vérifié entre chunks (annulation coopérative des transcriptions longues) ; les sessions FFmpeg du spike sont annulables via FFmpegSession.cancel() câblé sur invokeOnCancellation
 - Local-first intégral : TTS système, adb, scripts bash — aucun service cloud, aucun téléchargement réseau de modèles (SEC-05 = Phase 3)
 - Le test fonctionnel mot-à-mot (assertions manifest) est bloquant pour la clôture ; le repli CC0 n'est admissible que pour les runs benchmark sans ground truth
 - La jambe physique UAT de Phase 1 (STATE.md, préoccupation ouverte) est un prérequis de clôture de la Phase 2
@@ -85,7 +86,7 @@ Seul le module `:app` existe : il compile, s'installe et se lance (émulateur x8
 - [ ] NDK épinglé dans `gradle/libs.versions.toml` (≥ r28, fraîcheur E2 vérifiée, version + date consignées) et câblé via `ndkVersion` du module
 - [ ] `connectedDebugAndroidTest` vert sur ARM64 physique uniquement : `ANDROID_SERIAL` imposé + triple assert (`ro.kernel.qemu ≠ 1`, `ro.hardware ∉ {goldfish, ranchu}`, `ro.product.cpu.abi = arm64-v8a`) ; violation → échec explicite avant lancement
 - [ ] FFmpeg fork : conversion WAV rc=0 + `volumedetect` rc=0 + FFprobeKit : 16000 Hz / 1 canal / pcm_s16le / durée source ± 0,1 s / taille > 0
-- [ ] Transcription : ≥ 1 mot, |start_whisper − start_manifest| ≤ 200 ms par mot apparié (normalisation minuscules/ponctuation, appariement par rang), starts monotones non décroissants, end ≥ start ; 0 mot → échec du test
+- [ ] Transcription : ≥ 1 mot, |start_whisper − start_manifest| ≤ 200 ms par mot apparié (normalisation minuscules/ponctuation, appariement par rang), starts monotones non décroissants, end ≥ start ; transcription exécutée avec les paramètres token_timestamps=true, max_len=1, split_on_word=true ; 0 mot → échec du test
 - [ ] Asset : script versionné génère WAV fonctionnel ~1 min (silence inter-mots 200 ms) + manifest exact ; WAV benchmark ∈ [15, 20] min (n minimal asserté) ; TTS muet → abort explicite (exit non-zero) ; repli CC0 réservé aux runs benchmark
 - [ ] `verify_p2.sh` : alignement LOAD ≥ 16384 pour chaque `.so` (32768 accepté), `zipalign -P 16` OK, ensemble vide = échec, SHA-256 des `.so` du fork dans l'APK = ceux de l'AAR résolu ; exit non-zero sinon ; zéro workflow CI cloud dans le dépôt
 - [ ] `02-BENCHMARK.md` complet : appareil/RAM/SoC/Android, batterie départ < 30 %, commit b4938, nb threads, SHA-256 WAV + manifest, baseline et seuil thermiques, ordre Tiny→Base→Small avec cooldown baseline + 2 °C (max 10 min), RTF = processing/audio à 2 décimales (chargement exclu, consigné à part), température + pic RAM + verdict par modèle, OOM consigné non bloquant, run atomique stay-awake
