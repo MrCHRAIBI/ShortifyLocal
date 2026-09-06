@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- P1 : ZÉRO permission (celles des phases ultérieures arrivent avec leurs fonctions).
-     Pas d'attribut de trafic en clair (HTTPS-only par défaut), pas de deep link (Phase 7/3).
-     Initialisation WorkManager on-demand : initialiseur par défaut retiré (tools:node="remove"). -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/apk/tools">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:name=".ShortifyLocalApp"
@@ -30,7 +27,6 @@
             tools:node="merge">
             <meta-data
                 android:name="androidx.work.WorkManagerInitializer"
-                android:value="androidx.startup"
                 tools:node="remove" />
         </provider>
     </application>
