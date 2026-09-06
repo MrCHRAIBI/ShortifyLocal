@@ -73,7 +73,20 @@ Plans:
   3. Toutes les bibliothèques `.so` embarquées passent la vérification 16 KB (`llvm-readelf` / `zipalign -P 16`) en CI, et l'app s'installe et se lance sur un émulateur/appareil configuré 16 KB.
   4. Un premier benchmark whisper on-device est consigné (facteur temps réel sur vidéo 15–20 min, appareil 4–6 Go, batterie < 30 %) et sert de base au choix du modèle par défaut et à l'UX de progression.
 
-**Plans**: TBD
+**Plans:** 4 plans
+
+**Wave 1** *(host-only — build natif, pas d'appareil requis)*
+
+- [ ] 02-01-PLAN.md — Tracer natif : submodule whisper.cpp b4938 → CMake/NDK → libwhisper_jni.so (2 ABIs), wrapper JNI contractuel (D-04/D-05/D-06), pin modèles anti-TOFU (D-01), NDK r29 épinglé catalogue
+
+**Wave 2** *(blocked on Wave 1 — device + hôte en parallèle)*
+
+- [ ] 02-02-PLAN.md — Preuves on-device (ARM64 physique exclusif) : assets TTS + garde D-09 (R4), FFmpeg fork + FFprobe (R2), transcription mot-à-mot vs manifest (R3), abort wrapper (D-06)
+- [ ] 02-03-PLAN.md — verify_p2.sh : 16 KB (llvm-readelf + zipalign), SHA-256 .so fork APK == AAR, zéro CI cloud, garde getprop (R5/R6 hôte)
+
+**Wave 3** *(blocked on Wave 2 — session benchmark opérateur ~1 h)*
+
+- [ ] 02-04-PLAN.md — WhisperBenchmarkTest (bench=on, JSON atomique D-07), recette finale (suite verte + refus émulateur + jambe P1 soldée), fiche 02-BENCHMARK.md + défaut Base figé PROJECT.md (R7)
 
 ### Phase 3: Contrats domain & socle de données
 
@@ -164,7 +177,7 @@ Phases exécutées en ordre numérique : 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Échafaudage & décisions bloquantes | 4/4 | In Progress|  |
-| 2. Fondations natives (spike critique) | 0/TBD | Not started | - |
+| 2. Fondations natives (spike critique) | 0/4 | Not started | - |
 | 3. Contrats domain & socle de données | 0/TBD | Not started | - |
 | 4. Pipeline A→C — de l'URL aux segments | 0/TBD | Not started | - |
 | 5. Pipeline D→F — premier Short rendu | 0/TBD | Not started | - |
