@@ -440,15 +440,15 @@ Note factuelle : `ro.kernel.qemu`/`ro.hardware` ne sont pas des propriétés sys
 
 ## Open Questions
 
-1. **NDK : r29 stable (`29.0.14206865`) ou r28.2 installée (`28.2.13676358`) ?**
+1. **(RESOLVED — tranché par 02-01-PLAN.md Task 1 : pin r29 `29.0.14206865` au catalogue, repli documenté `28.2.13676358` hors ligne)** **NDK : r29 stable (`29.0.14206865`) ou r28.2 installée (`28.2.13676358`) ?**
    - What we know: les deux satisfont ≥ r28 ; r29 = dernière stable (fraîcheur E2) ; r28.2 est déjà sur disque ; whisper.android officiel est encore sur ndkVersion 25.2 à b4938 (exemple, pas une contrainte).
    - What's unclear: le coût d'installation r29 (téléchargement AGP) vs la fraîcheur exigée.
    - Recommendation: épingler **r29 `29.0.14206865`** (clause fraîcheur E2 littérale), consigner version + date ; repli documenté r28.2 si l'installation échoue hors ligne.
-2. **Méthode °C retenue pour le cooldown « baseline + 2 °C » (discrétion Claude, non normative)**
+2. **(RESOLVED — tranché par 02-04-PLAN.md Task 1 : baseline + cooldown sur la température batterie via broadcast sticky `ACTION_BATTERY_CHANGED`, `EXTRA_TEMPERATURE`/10.0 °C)** **Méthode °C retenue pour le cooldown « baseline + 2 °C » (discrétion Claude, non normative)**
    - What we know: in-app, la seule source °C fiable est la température **batterie** (`EXTRA_TEMPERATURE`) ; les zones sysfs CPU ne sont pas garanties lisibles depuis l'app (SELinux) mais le sont via `adb shell` sur la plupart des appareils.
    - What's unclear: le comportement de l'appareil UAT cible (zones sysfs lisibles ?), non encore accédé.
    - Recommendation: baseline + cooldown mesurés sur la température batterie in-app (méthode nommée dans la fiche), sondage sysfs via adb en parallèle pour le diagnostic ; statut `PowerManager` comme signal de throttle catégoriel (« zéro thermal throttle »).
-3. **`x86_64` : build du module uniquement (jamais exécuté)**
+3. **(RESOLVED — tranché par 02-01-PLAN.md Task 1 : `abiFilters` inclut x86_64 compile-only, jamais exécuté)** **`x86_64` : build du module uniquement (jamais exécuté)**
    - What we know: ggml b4938 gère le cross x86_64 Android (défauts SSE/AVX OFF en cross-compile car `GGML_NATIVE` passe OFF quand `CMAKE_CROSSCOMPILING`) [VERIFIED: ggml/CMakeLists.txt 105-123].
    - Recommendation: aucune option x86 spéciale ; l'assert ABI du spike empêche toute exécution.
 

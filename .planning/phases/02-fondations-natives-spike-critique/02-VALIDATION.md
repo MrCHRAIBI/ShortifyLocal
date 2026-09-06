@@ -44,14 +44,14 @@ created: "2026-09-06"
 | 02-01-01 | 01 | 1 | PROJ-02 (R1) | T-02-02 / T-02-03 | pin submodule + flags 16 KB au link | build (script) | `./gradlew :whisper-native:assembleDebug` + garde submodule-absent (mv/restore) | ❌ W0 | ⬜ pending |
 | 02-01-02 | 01 | 1 | PROJ-02 (R1) | — | contrat D-04/D-06 compilable, symboles JNI présents | build + binaire | `./gradlew :app:assembleDebug` + grep symbole `Java_com_shortifylocal_ai_whisper_1native_WhisperNative_nativeTranscribe` | ❌ W0 | ⬜ pending |
 | 02-01-03 | 01 | 1 | PROJ-02 (R4/D-01) | T-02-01 | SHA-256 anti-TOFU, zéro .bin versionné | bash (hôte) | `bash scripts/fetch_models_p2.sh --no-push` + `git ls-files '*.bin'` vide | ❌ W0 | ⬜ pending |
-| 02-02-01 | 02 | 2 | PROJ-02 (R4/D-08/D-09/D-02) | T-02-04 | garde TTS dégradé → abort, artefacts persistants | instrumentation | `ANDROID_SERIAL=… ./gradlew :app:connectedDebugAndroidTest --tests "*TtsAssetGenerationTest*"` | ❌ W0 | ⬜ pending |
+| 02-02-01 | 02 | 2 | PROJ-02 (R4/D-08/D-09/D-02) | T-02-04 | garde TTS dégradé → abort, artefacts persistants | instrumentation | `ANDROID_SERIAL=… ./gradlew :app:connectedDebugAndroidTest --tests "*TtsAssetGenerationTest*"` + garde adb : `[ "$(adb … ls files/wavs | tr -d '\r' | grep -cE '\.wav|manifest')" -ge 2 ]` | ❌ W0 | ⬜ pending |
 | 02-02-02 | 02 | 2 | PROJ-02 (R2/E3) | T-02-05 / T-02-07 | 5 propriétés WAV assertées, cancel(sessionId) | instrumentation | `… --tests "*FfmpegForkTest*"` | ❌ W0 | ⬜ pending |
 | 02-02-03 | 02 | 2 | PROJ-02 (R3/D-05/D-06) | T-02-06 | 0 mot = échec, Aborted ≠ InferenceFailed | instrumentation | `… --tests "*WordTranscriptionTest*" --tests "*AbortPropagationTest*"` | ❌ W0 | ⬜ pending |
 | 02-03-01 | 03 | 2 | PROJ-02 (R5/R6 hôte) | T-02-08 / T-02-09 | 16 KB + SHA .so == AAR + zéro cloud + getprop | bash (hôte) | `bash scripts/verify_p2.sh` | ❌ W0 | ⬜ pending |
-| 02-03-02 | 03 | 2 | PROJ-02 (R5) | T-02-09 | ensemble vide = échec (fail-closed prouvé) | bash (hôte, négatif) | démo P2_APK factice → exit non-zero + « ÉCHEC » | ❌ W0 | ⬜ pending |
-| 02-04-01 | 04 | 3 | PROJ-02 (R7/D-07/D-03) | T-02-11 / T-02-13 | JSON atomique, off par défaut, zéro logcat | build + instrumentation (skip) | `./gradlew :app:compileDebugAndroidTestSources` + run sans `bench=on` vert rapide | ❌ W0 | ⬜ pending |
+| 02-03-02 | 03 | 2 | PROJ-02 (R5) | T-02-09 | ensemble vide = échec (fail-closed prouvé) | bash (hôte, négatif) | démo P2_APK factice (zip factice via `jar -cMf` du JDK 17 — `zip` absent de l'hôte) → exit non-zero + « ÉCHEC » | ❌ W0 | ⬜ pending |
+| 02-04-01 | 04 | 3 | PROJ-02 (R7/D-07/D-03) | T-02-11 / T-02-13 | JSON atomique, off par défaut, zéro logcat | build + instrumentation (skip) | `./gradlew :app:compileDebugAndroidTestSources` + run sans `bench=on` vert rapide sous `timeout 120` | ❌ W0 | ⬜ pending |
 | 02-04-02 | 04 | 3 | PROJ-02 (R6 + clôture P1) | — | refus émulateur vérifié, suite verte physique | instrumentation + bash | suite complète + `bash scripts/verify_p2.sh` + refus AVD consigné | ❌ W0 | ⬜ pending |
-| 02-04-03 | 04 | 3 | PROJ-02 (R7, porte Base) | T-02-12 / T-02-14 | fiche = projection mécanique du JSON | human-action + bash | session `bench=on` (opérateur) puis grep rubriques fiche + PROJECT.md | ❌ W0 | ⬜ pending |
+| 02-04-03 | 04 | 3 | PROJ-02 (R7, porte Base) | T-02-12 / T-02-14 | fiche = projection mécanique du JSON | human-action + bash | session `bench=on` (opérateur) puis grep rubriques fiche (dont provenance modèles URL+date du manifest — audit D-01) + PROJECT.md | ❌ W0 | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
